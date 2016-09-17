@@ -18,12 +18,9 @@ class PolyTreeNode
   end
 
   def parent=(new_parent)
-    # if @parent
-    #   @parent.remove_child(self)
-    # end
-    # @parent = parent
-    # @parent.children.push(self)
-    if new_parent == nil
+    return if @parent == new_parent
+    if new_parent.nil?
+      @parent.children.delete(self)
       @parent = nil
     elsif @parent.nil?
       @parent = new_parent
@@ -35,16 +32,13 @@ class PolyTreeNode
     end
   end
 
-  def remove_child(child)
-    raise unless @children.include?(child)
-    @children.delete(child)
-    child.parent = nil
+  def add_child(new_child)
+    new_child.parent = self
   end
 
-  def add_child(child)
-    if @children.include?(child) == false
-      child.parent = self
-    end
+  def remove_child(old_child)
+    raise unless old_child && @children.include?(old_child)
+    old_child.parent = nil
   end
 
   def dfs(target_value)
@@ -65,8 +59,4 @@ class PolyTreeNode
     end
     nil
   end
-  
-
-
-
 end
