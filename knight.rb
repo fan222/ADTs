@@ -12,6 +12,13 @@ class KnightPathFinder
     build_move_tree
   end
 
+  def find_path(end_pos)
+    end_node = @root_node.bfs(end_pos)
+    trace_path_back(end_node).reverse.map(&:value)
+  end
+
+  # private
+
   def self.valid_moves(pos)
     moves = []
     DELTAS.each do |increment|
@@ -46,11 +53,6 @@ class KnightPathFinder
         queue.push(child)
       end
     end
-  end
-
-  def find_path(end_pos)
-    end_node = @root_node.bfs(end_pos)
-    trace_path_back(end_node).reverse.map(&:value)
   end
 
   def trace_path_back(end_node)
